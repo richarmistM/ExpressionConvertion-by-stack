@@ -16,10 +16,18 @@ Mystack::~Mystack()
 
 
 
-void Mystack::slot1()                           //b1被触发时
+void Mystack::slot1()                           //b1被触发时（中缀转后缀）
 {
     ui.textEdit->clear();
-    QString str = ui.input_str->text();
+
+    // === 修改开始 ===
+    // 获取输入文本，并使用 remove(' ') 自动移除所有空格
+    QString str = ui.input_str->text().remove(' ');
+
+    // 将处理过（无空格）的字符串填回输入框，让用户知道程序帮他修正了格式
+    ui.input_str->setText(str);
+    // === 修改结束 ===
+
     if (infixcheck(str))                        //检查输入是否合法
     {
         ui.output_str->setText(infixToPostfix(str));
@@ -30,12 +38,18 @@ void Mystack::slot1()                           //b1被触发时
     }
 }
 
-
-
-void Mystack::slot2()                           //b2被触发时
+void Mystack::slot2()                           //b2被触发时（后缀转中缀）
 {
     ui.textEdit->clear();
-    QString str = ui.input_str->text();
+
+    // === 修改开始 ===
+    // 同样自动去除空格
+    QString str = ui.input_str->text().remove(' ');
+
+    // 将处理后的字符串回填显示
+    ui.input_str->setText(str);
+    // === 修改结束 ===
+
     if(postfixcheck(str))                        //检查输入是否合法
     {
         ui.output_str->setText(postfixToInfix(str));
